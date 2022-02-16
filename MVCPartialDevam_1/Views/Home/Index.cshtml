@@ -1,0 +1,96 @@
+﻿@model HomeVM
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Isim</th>
+            <th>SoyIsim</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Employee item in Model.Employees)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<button id="btnGetAll" class="btn btn-primary">  Kategorileri Getir </button>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <ul id="kategoriListesi">
+            </ul>
+        </div>
+        <div class="col-md-6">
+
+            <ul id="urunListesi">
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    //Eger bir PartialView'i BackEnd üzerinden tetiklemek istiyorsanız Ajax ile bunu yapabilirsiniz...
+
+    //JavaScript tamamen fonksiyonlar üzerinden calısan bir yapıdır...JavaScript'te her görev bir fonksiyon demektir...
+
+    //Jquery'nin get fonksiyonu sizden iki argüman ister... 1. argüman nereye gidecegidir...Burada RouteConfig paterninize göre string bir rota vermek zorundasınız... 2. Argüman da eger gittigimiz Action geriye deger döndürüyorsa o degerin argüman olarak verilebildigi bir anonim fonksiyon yazılır, deger döndürmüyorsa da argüman almayan bir anonim fonksiyon yazılır...
+
+
+    //Öncelikle Jquery kullandıgımızı belirtmek icin $ sembolü yazmalıyız.... Bunun yanında sayfanın hazır oldugunun kesinleşmesi icin bir gorev belirtmeliyiz(anonim fonksiyon)
+
+    $(function () {
+
+
+        $("#btnGetAll").click(function () {
+
+            $.get("/Home/GetAllCategories", function (gelenSayfa) {
+
+
+                $("#kategoriListesi").html(gelenSayfa);
+
+            })
+
+            $.get("/Home/GetAllProducts", function (urunler) {
+
+
+                $("#urunListesi").html(urunler);
+            })
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+    })
+
+
+
+
+</script>
